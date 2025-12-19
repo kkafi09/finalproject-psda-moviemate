@@ -57,24 +57,15 @@ LANGUAGE_MAPPING = {
     'pl': 'Polish'
 }
 
-def get_theme_css(dark_mode):
+def get_theme_css():
     """Generate CSS based on theme mode"""
-    if dark_mode:
-        bg_primary = "#4E0714"
-        bg_secondary = "#781727"
-        accent_primary = "#AC5B67"
-        accent_secondary = "#E2B3C2"
-        text_primary = "#E8D1A7"
-        text_secondary = "#E2B3C2"
-        card_bg = "#781727"
-    else:
-        bg_primary = "#E8D1A7"
-        bg_secondary = "#E2B3C2"
-        accent_primary = "#AC5B67"
-        accent_secondary = "#781727"
-        text_primary = "#4E0714"
-        text_secondary = "#781727"
-        card_bg = "#ffffff"
+    bg_primary = "#4c3d19"           # Background utama
+    bg_secondary = "#354024"         # Background sekunder
+    accent_primary = "#889063"       # Accent warna 1
+    accent_secondary = "#e5ada8"     # Accent warna 2
+    text_primary = "#efe8d8"         # Text utama
+    text_secondary = "#d8d7b2"       # Text sekunder
+    card_bg = "#e5d7c4"              # Background card
     
     return f"""
     <style>
@@ -96,7 +87,8 @@ def get_theme_css(dark_mode):
             font-style: italic;
         }}
         .kpi-card {{
-            background: linear-gradient(135deg, {accent_primary} 0%, {accent_secondary} 100%);
+            background: linear-gradient(135deg, {accent_primary} 0%, 
+                        {accent_secondary} 100%);
             padding: 20px;
             border-radius: 10px;
             color: {text_primary};
@@ -112,19 +104,29 @@ def get_theme_css(dark_mode):
             opacity: 0.9;
         }}
         .movie-card {{
-            border: 2px solid {accent_primary};
             border-radius: 10px;
             padding: 15px;
             margin: 10px 0;
-            background: {card_bg};
+            background: linear-gradient(150deg, {bg_secondary} 0%, {text_secondary} 50%, {accent_secondary} 100%);
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             color: {text_primary};
+        }}
+        .movie-card h4 {{
+            margin-bottom: 20px;
+        }}
+        .movie-card p {{
+            color: {bg_secondary};
+            margin: 0;
+        }}
+        .movie-card .top {{
+            margin-bottom:20px;
         }}
         .section-header {{
             color: {text_secondary};
             font-weight: bold;
         }}
-        .stSelectbox label, .stSlider label, .stRadio label, .stMultiSelect label {{
+        .stSelectbox label, .stSlider label, .stRadio label, 
+        .stMultiSelect label {{
             color: {text_secondary} !important;
         }}
         div[data-testid="column"]:has(button[kind="primary"]) {{
@@ -152,7 +154,8 @@ def quick_sort(arr, key=lambda x: x, reverse=False):
         middle = [x for x in arr if key(x) == pivot_val]
         right = [x for x in arr if key(x) > pivot_val]
     
-    return quick_sort(left, key, reverse) + middle + quick_sort(right, key, reverse)
+    return (quick_sort(left, key, reverse) + middle +
+            quick_sort(right, key, reverse))
 
 def binary_search(arr, target, key=lambda x: x):
     """Binary Search Algorithm - O(log n)"""
@@ -230,12 +233,15 @@ def load_data():
     df = pd.read_csv('data/tmdb_movies.csv')
     
     # Data preprocessing
-    df['Release_Date'] = pd.to_datetime(df['Release_Date'], errors='coerce')
+    df['Release_Date'] = pd.to_datetime(df['Release_Date'],
+                                        errors='coerce')
     df['Year'] = df['Release_Date'].dt.year.astype('Int64')
     df['Genres'] = df['Genres'].fillna('Unknown')
-    df['Rating_average'] = pd.to_numeric(df['Rating_average'], errors='coerce')
+    df['Rating_average'] = pd.to_numeric(df['Rating_average'],
+                                          errors='coerce')
     df['Runtime'] = pd.to_numeric(df['Runtime'], errors='coerce')
-    df['Popularity'] = pd.to_numeric(df['Popularity'], errors='coerce')
+    df['Popularity'] = pd.to_numeric(df['Popularity'],
+                                      errors='coerce')
     
     # Clean data
     df = df.dropna(subset=['Year', 'Title'])
@@ -255,22 +261,20 @@ def map_language(lang_code):
     return LANGUAGE_MAPPING.get(lang_code, lang_code)
 
 def create_genre_list(df):
-    """Extract all unique genres from dataset as individual genres"""
+    """Extract all unique genres from dataset"""
     all_genres = set()
     for genres_str in df['Genres'].dropna():
-        # Split by both | and , to handle different formats
         separators = ['|', ',']
         genres = str(genres_str)
         for sep in separators:
             if sep in genres:
-                genre_parts = [map_genre(g.strip()) for g in genres.split(sep)]
+                genre_parts = [map_genre(g.strip()) for g in
+                               genres.split(sep)]
                 all_genres.update(genre_parts)
                 break
         else:
-            # If no separator found, treat as single genre
             all_genres.add(map_genre(genres.strip()))
     
-    # Remove any empty strings or 'Unknown'
     all_genres = {g for g in all_genres if g and g != 'Unknown'}
     return sorted(list(all_genres))
 
@@ -279,26 +283,25 @@ def filter_by_genre(df, selected_genre):
     if not selected_genre or selected_genre == 'All':
         return df
     
-    # Split by both | and , to handle different formats
     mask = df['Genres'].apply(
         lambda x: selected_genre in [
-            map_genre(g.strip()) 
-            for sep in ['|', ','] 
+            map_genre(g.strip())
+            for sep in ['|', ',']
             for g in str(x).split(sep)
         ]
     )
     return df[mask]
 
 def create_recommendation_system(df, selected_genre, top_n=10):
-    """Hash-based recommendation system - O(1) lookup"""
+    """Hash-based recommendation system"""
     if not selected_genre or selected_genre == 'All':
         return df.nlargest(top_n, 'Rating_average')
     
     genre_movies = df[
         df['Genres'].apply(
             lambda x: selected_genre in [
-                map_genre(g.strip()) 
-                for sep in ['|', ','] 
+                map_genre(g.strip())
+                for sep in ['|', ',']
                 for g in str(x).split(sep)
             ]
         )
@@ -311,12 +314,12 @@ def create_recommendation_system(df, selected_genre, top_n=10):
 
 def get_similar_movies(df, movie, top_n=5):
     """Get similar movies based on genre matching"""
-    # Split by both | and , to handle different formats
     movie_genres = []
     genres_str = str(movie['Genres'])
     for sep in ['|', ',']:
         if sep in genres_str:
-            movie_genres = [map_genre(g.strip()) for g in genres_str.split(sep)]
+            movie_genres = [map_genre(g.strip()) for g in
+                            genres_str.split(sep)]
             break
     else:
         movie_genres = [map_genre(genres_str.strip())]
@@ -325,15 +328,17 @@ def get_similar_movies(df, movie, top_n=5):
         df['Genres'].apply(
             lambda x: any(
                 genre in [
-                    map_genre(g.strip()) 
-                    for sep in ['|', ','] 
+                    map_genre(g.strip())
+                    for sep in ['|', ',']
                     for g in str(x).split(sep)
                 ]
                 for genre in movie_genres
             )
         )
     ]
-    similar_movies = similar_movies[similar_movies['Title'] != movie['Title']]
+    similar_movies = similar_movies[
+        similar_movies['Title'] != movie['Title']
+    ]
     
     similar_list = similar_movies.to_dict('records')
     sorted_similar = quick_sort(
@@ -347,10 +352,6 @@ def get_similar_movies(df, movie, top_n=5):
 # ==================== MAIN APPLICATION ====================
 
 def main():
-    # Theme toggle in sidebar
-    if 'dark_mode' not in st.session_state:
-        st.session_state.dark_mode = True
-    
     # Load data
     try:
         df = load_data()
@@ -360,29 +361,22 @@ def main():
         return
     
     # Apply theme CSS
-    st.markdown(get_theme_css(st.session_state.dark_mode), unsafe_allow_html=True)
+    st.markdown(get_theme_css(),
+                unsafe_allow_html=True)
     
     # Header with tagline
-    st.markdown('<h1 class="main-header">MovieMate</h1>', 
+    st.markdown('<h1 class="main-header">MovieMate</h1>',
                 unsafe_allow_html=True)
     st.markdown(
-        '<p class="tagline">Your Intelligent Companion for Movie Discovery</p>',
+        '<p class="tagline">Your Intelligent Companion for '
+        'Movie Discovery</p>',
         unsafe_allow_html=True
     )
     
     # ==================== SIDEBAR FILTERS ====================
     st.sidebar.title("Global Filters")
     
-    # Theme toggle
-    if st.sidebar.button(
-        f"Switch to {'Light' if st.session_state.dark_mode else 'Dark'} Mode"
-    ):
-        st.session_state.dark_mode = not st.session_state.dark_mode
-        st.rerun()
-    
-    st.sidebar.markdown("---")
-    
-    # Year Filter with discrete values
+    # Year Filter
     min_year = int(df['Year'].min())
     max_year = int(df['Year'].max())
     year_range = st.sidebar.slider(
@@ -393,7 +387,7 @@ def main():
         step=1
     )
     
-    # Genre Filter - SINGLE SELECT with individual genres
+    # Genre Filter
     all_genres = create_genre_list(df)
     selected_genre = st.sidebar.selectbox(
         "Select Genre",
@@ -417,13 +411,15 @@ def main():
     
     # Apply filters
     filtered_df = df[
-        (df['Year'] >= year_range[0]) & 
+        (df['Year'] >= year_range[0]) &
         (df['Year'] <= year_range[1])
     ]
     
     if selected_language != 'All':
         lang_code = selected_language.split('(')[-1].strip(')')
-        filtered_df = filtered_df[filtered_df['Original_Language'] == lang_code]
+        filtered_df = filtered_df[
+            filtered_df['Original_Language'] == lang_code
+        ]
     
     filtered_df = filter_by_genre(filtered_df, selected_genre)
     
@@ -486,31 +482,32 @@ def main():
         with col1:
             st.subheader("Top 10 Genres Distribution")
             
-            # Using QUICK SORT to rank genres
             genre_counts = {}
             for genres_str in filtered_df['Genres'].dropna():
                 for sep in ['|', ',']:
                     if sep in str(genres_str):
                         for genre in str(genres_str).split(sep):
                             mapped_genre = map_genre(genre)
-                            genre_counts[mapped_genre] = genre_counts.get(
-                                mapped_genre, 0
-                            ) + 1
+                            genre_counts[mapped_genre] = (
+                                genre_counts.get(mapped_genre, 0) + 1
+                            )
                         break
                 else:
                     mapped_genre = map_genre(str(genres_str))
-                    genre_counts[mapped_genre] = genre_counts.get(
-                        mapped_genre, 0
-                    ) + 1
+                    genre_counts[mapped_genre] = (
+                        genre_counts.get(mapped_genre, 0) + 1
+                    )
             
-            genre_list = [(genre, count) for genre, count in genre_counts.items()]
+            genre_list = [(genre, count) for genre, count in
+                          genre_counts.items()]
             sorted_genres = quick_sort(
                 genre_list,
                 key=lambda x: x[1],
                 reverse=True
             )[:10]
             
-            genre_df = pd.DataFrame(sorted_genres, columns=['Genre', 'Count'])
+            genre_df = pd.DataFrame(sorted_genres,
+                                    columns=['Genre', 'Count'])
             genre_df = genre_df.sort_values('Count', ascending=True)
             
             fig_bar = px.bar(
@@ -520,7 +517,12 @@ def main():
                 orientation='h',
                 title='Algorithm: Quick Sort O(n log n)',
                 color='Count',
-                color_continuous_scale='reds'
+                color_continuous_scale=[
+                    [0, '#e5ada8'],
+                    [0.5, '#e5d7c4'],      # 0% = white
+                    [0.75, '#889063'],    # 50% = red
+                    [1, '#354024']       # 100% = dark red
+                ]
             )
             fig_bar.update_layout(
                 yaxis={'categoryorder': 'total ascending'},
@@ -533,21 +535,45 @@ def main():
             
             lang_counts = filtered_df['Original_Language'].value_counts().head(10)
             mapped_lang_counts = {
-                map_language(lang): count for lang, count in lang_counts.items()
+                map_language(lang): count for lang, count in
+                lang_counts.items()
             }
             
+            # ===== UBAH BAGIAN INI =====
+            # Ambil top 4
+            sorted_langs = sorted(
+                mapped_lang_counts.items(),
+                key=lambda x: x[1],
+                reverse=True
+            )
+            
+            top_4 = sorted_langs[:4]
+            others_count = sum([count for _, count in sorted_langs[4:]])
+            
+            # Tambah 'Others' jika ada sisa
+            if others_count > 0:
+                top_4.append(('Others', others_count))
+            
+            # Convert ke dict untuk pie chart
+            pie_data = dict(top_4)
+            
             fig_pie = px.pie(
-                values=list(mapped_lang_counts.values()),
-                names=list(mapped_lang_counts.keys()),
-                title='Top 10 Languages',
-                color_discrete_sequence=px.colors.sequential.RdBu
+                values=list(pie_data.values()),
+                names=list(pie_data.keys()),
+                title='Top 4 Languages (+ Others)',
+                color_discrete_sequence=[
+                    '#354024',
+                    '#a1a37e',
+                    '#e5d2c1',
+                    '#e5bbb1',
+                    '#e5aea9'
+                ]
             )
             st.plotly_chart(fig_pie, use_container_width=True)
         
-        # Line Chart - Trend Analysis (up to 2020)
+        # Line Chart
         st.subheader("Movie Release Trends per Year")
         
-        # Filter data up to 2020
         trend_df = filtered_df[filtered_df['Year'] <= 2020]
         
         yearly_data = trend_df.groupby('Year').agg({
@@ -563,10 +589,10 @@ def main():
             y=yearly_data['Count'],
             mode='lines+markers',
             name='Number of Movies',
-            line=dict(color='#AC5B67', width=3),
+            line=dict(color='#354024', width=3),  
             marker=dict(size=6),
             fill='tozeroy',
-            fillcolor='rgba(172, 91, 103, 0.2)'
+            fillcolor='rgba(207, 187, 153, 0.2)'
         ))
         
         fig_line.add_trace(go.Scatter(
@@ -574,7 +600,7 @@ def main():
             y=yearly_data['Avg_Rating'],
             mode='lines+markers',
             name='Average Rating',
-            line=dict(color='#781727', width=3),
+            line=dict(color='#e5aea9', width=3),  
             marker=dict(size=6),
             yaxis='y2'
         ))
@@ -615,7 +641,6 @@ def main():
     elif page == "Granular Search & Discovery":
         st.header("Granular Search & Recommendation Hub")
         
-        # Search Section with inline button
         col1, col2 = st.columns([5, 1])
         
         with col1:
@@ -649,8 +674,10 @@ def main():
             sort_by = st.selectbox(
                 "Sort By",
                 [
-                    'Rating (High to Low)', 'Rating (Low to High)', 
-                    'Popularity (High to Low)', 'Year (Newest First)', 
+                    'Rating (High to Low)',
+                    'Rating (Low to High)',
+                    'Popularity (High to Low)',
+                    'Year (Newest First)',
                     'Duration (Longest First)'
                 ]
             )
@@ -664,17 +691,16 @@ def main():
                 step=5
             )
         
-        # Apply rating filter
         search_df = filtered_df[
             (filtered_df['Rating_average'] >= rating_range[0]) &
             (filtered_df['Rating_average'] <= rating_range[1])
         ]
         
-        # Search functionality
         if search_query:
-            st.markdown(f"### Search Results for: **{search_query}**")
+            st.markdown(
+                f"### Search Results for: **{search_query}**"
+            )
             
-            # LINEAR SEARCH Implementation
             movies_list = search_df.to_dict('records')
             search_results = linear_search(
                 movies_list,
@@ -689,7 +715,6 @@ def main():
             )
             
             if search_results:
-                # Apply sorting using MERGE SORT
                 if sort_by == 'Rating (High to Low)':
                     search_results = merge_sort(
                         search_results,
@@ -722,21 +747,28 @@ def main():
                     )
                 
                 st.success(
-                    f"**Sorting Algorithm**: Merge Sort | **Complexity**: O(n log n)"
+                    f"**Sorting Algorithm**: Merge Sort | "
+                    f"**Complexity**: O(n log n)"
                 )
                 
-                # Display results
-                for i, movie in enumerate(search_results[:results_limit]):
+                for i, movie in enumerate(
+                    search_results[:results_limit]
+                ):
                     with st.expander(
-                        f"{i+1}. {movie['Title']} ({movie.get('Year', 'N/A')})"
+                        f"{i+1}. {movie['Title']} "
+                        f"({movie.get('Year', 'N/A')})"
                     ):
                         col1, col2 = st.columns([2, 1])
                         
                         with col1:
                             st.markdown(f"""
-                            **Original Title**: {movie.get('Original_Title', 'N/A')}  
+                            **Original Title**: {movie.get(
+                                'Original_Title', 'N/A'
+                            )}  
                             **Genres**: {movie.get('Genres', 'N/A')}  
-                            **Overview**: {movie.get('Overview', 'No overview available')[:200]}...
+                            **Overview**: {movie.get(
+                                'Overview', 'No overview available'
+                            )[:200]}...
                             """)
                         
                         with col2:
@@ -753,24 +785,29 @@ def main():
                                 f"{movie.get('Runtime', 0):.0f} min"
                             )
                         
-                        # Similar movies section
                         st.markdown("---")
                         st.markdown("**Similar Movies**")
                         
-                        similar_movies = get_similar_movies(search_df, movie, top_n=5)
+                        similar_movies = get_similar_movies(
+                            search_df, movie, top_n=5
+                        )
                         
                         if similar_movies:
-                            for j, sim_movie in enumerate(similar_movies):
+                            for j, sim_movie in enumerate(
+                                similar_movies
+                            ):
                                 st.markdown(f"""
-                                {j+1}. **{sim_movie['Title']}** ({sim_movie.get('Year', 'N/A')}) - 
-                                Rating: {sim_movie.get('Rating_average', 0):.1f}/10
+                                {j+1}. **{sim_movie['Title']}** 
+                                ({sim_movie.get('Year', 'N/A')}) - 
+                                Rating: {sim_movie.get(
+                                    'Rating_average', 0
+                                ):.1f}/10
                                 """)
                         else:
                             st.info("No similar movies found")
             else:
                 st.warning("No movies found matching your search.")
         
-        # Recommendation System
         st.markdown("---")
         st.markdown("### Personalized Recommendations")
         
@@ -789,36 +826,48 @@ def main():
             if len(recommendations) > 0:
                 st.success(
                     f"Found {len(recommendations)} recommendations "
-                    f"based on your selected genre: **{selected_genre}**"
+                    f"based on your selected genre: "
+                    f"**{selected_genre}**"
                 )
                 
-                # Display recommendations in grid
                 cols = st.columns(2)
-                for idx, (_, movie) in enumerate(recommendations.iterrows()):
+                for idx, (_, movie) in enumerate(
+                    recommendations.iterrows()
+                ):
                     with cols[idx % 2]:
                         st.markdown(f"""
                         <div class="movie-card">
                             <h4>{movie['Title']}</h4>
-                            <p><strong>Year:</strong> {movie.get('Year', 'N/A')}</p>
-                            <p><strong>Rating:</strong> {movie.get('Rating_average', 0):.1f}/10</p>
-                            <p><strong>Genres:</strong> {movie.get('Genres', 'N/A')}</p>
-                            <p><strong>Overview:</strong> {str(movie.get('Overview', 'N/A'))[:150]}...</p>
+                            <p><strong>Year:</strong> {movie.get(
+                                'Year', 'N/A'
+                            )}</p>
+                            <p class="rating"><strong>Rating:</strong> {movie.get(
+                                'Rating_average', 0
+                            ):.1f}/10</p>
+                            <p><strong>Genres:</strong> {movie.get(
+                                'Genres', 'N/A'
+                            )}</p>
+                            <p><strong>Overview:</strong> {str(
+                                movie.get('Overview', 'N/A')
+                            )[:150]}...</p>
                         </div>
                         """, unsafe_allow_html=True)
             else:
-                st.warning("No recommendations found for selected criteria.")
+                st.warning(
+                    "No recommendations found for selected criteria."
+                )
         else:
             st.info(
                 "Select a specific genre from the sidebar to get "
                 "personalized recommendations!"
             )
 
-    # Footer
     st.markdown("---")
     st.markdown("""
     <div style='text-align: center; color: gray;'>
         <p>MovieMate | Data Structures & Algorithms Project</p>
-        <p>Algorithms: Quick Sort, Merge Sort, Binary Search, Linear Search, Hash Tables</p>
+        <p>Algorithms: Quick Sort, Merge Sort, Binary Search, 
+        Linear Search, Hash Tables</p>
     </div>
     """, unsafe_allow_html=True)
 

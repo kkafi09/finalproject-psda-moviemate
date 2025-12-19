@@ -62,7 +62,7 @@ def get_theme_css():
     bg_primary = "#4c3d19"           # Background utama
     bg_secondary = "#354024"         # Background sekunder
     accent_primary = "#889063"       # Accent warna 1
-    accent_secondary = "#e5ada8"     # Accent warna 2
+    accent_secondary = "#e5ada8"     # Accent warna 2 (PINK)
     text_primary = "#efe8d8"         # Text utama
     text_secondary = "#d8d7b2"       # Text sekunder
     card_bg = "#e5d7c4"              # Background card
@@ -85,6 +85,15 @@ def get_theme_css():
             text-align: center;
             margin-bottom: 2rem;
             font-style: italic;
+        }}
+        .logo-container {{
+            text-align: center;
+            margin: 2rem 0;
+        }}
+        .logo-container img {{
+            max-width: 200px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }}
         .kpi-card {{
             background: linear-gradient(135deg, {accent_primary} 0%, 
@@ -126,12 +135,188 @@ def get_theme_css():
             font-weight: bold;
         }}
         .stSelectbox label, .stSlider label, .stRadio label, 
-        .stMultiSelect label {{
+        .stMultiSelect label, .stTextInput label, .stNumberInput label {{
             color: {text_secondary} !important;
         }}
         div[data-testid="column"]:has(button[kind="primary"]) {{
             display: flex;
             align-items: flex-end;
+        }}
+        
+        /* ========== PRIMARY BUTTON - PINK ========== */
+        .stButton > button[kind="primary"] {{
+            background-color: {accent_secondary} !important;
+            border-color: {accent_secondary} !important;
+            color: {bg_secondary} !important;
+        }}
+        .stButton > button[kind="primary"]:hover {{
+            background-color: #d99a95 !important;
+            border-color: #d99a95 !important;
+        }}
+        .stButton > button[kind="primary"]:active {{
+            background-color: #cc8882 !important;
+            border-color: #cc8882 !important;
+        }}
+        
+        /* ========== SLIDER - PINK (SEMUA ELEMEN) ========== */
+        /* Thumb/handle slider */
+        .stSlider [role="slider"] {{
+            background-color: {accent_secondary} !important;
+            border-color: {accent_secondary} !important;
+        }}
+        .stSlider [data-baseweb="slider"] > div > div {{
+            background-color: {accent_secondary} !important;
+        }}
+        .stSlider [data-baseweb="slider"] > div > div > div {{
+            background-color: {accent_secondary} !important;
+        }}
+        .stSlider [role="slider"]:hover {{
+            background-color: #d99a95 !important;
+        }}
+        
+        /* SLIDER TEXT/ANGKA - PINK - SUPER AGGRESSIVE */
+        .stSlider * {{
+            color: {accent_secondary} !important;
+        }}
+        .stSlider p {{
+            color: {accent_secondary} !important;
+        }}
+        .stSlider div {{
+            color: {accent_secondary} !important;
+        }}
+        .stSlider span {{
+            color: {accent_secondary} !important;
+        }}
+        /* Tick bar values */
+        [data-testid="stTickBar"] {{
+            color: {accent_secondary} !important;
+        }}
+        [data-testid="stTickBar"] * {{
+            color: {accent_secondary} !important;
+        }}
+        [data-testid="stTickBar"] div {{
+            color: {accent_secondary} !important;
+        }}
+        /* Thumb values */
+        [data-testid="stThumbValue"] {{
+            color: {accent_secondary} !important;
+        }}
+        /* Min/max labels di samping slider */
+        .stSlider [data-testid="stTickBar"] + div {{
+            color: {accent_secondary} !important;
+        }}
+        .stSlider [data-testid="stTickBar"] ~ div {{
+            color: {accent_secondary} !important;
+        }}
+        
+        /* ========== RADIO BUTTON - PINK ========== */
+        .stRadio [role="radiogroup"] label:hover {{
+            background-color: rgba(229, 173, 168, 0.1) !important;
+        }}
+        .stRadio [data-baseweb="radio"] > div:first-child {{
+            background-color: transparent !important;
+            border-color: {accent_secondary} !important;
+        }}
+        .stRadio [data-baseweb="radio"][aria-checked="true"] > div:first-child {{
+            background-color: {accent_secondary} !important;
+            border-color: {accent_secondary} !important;
+        }}
+        .stRadio [data-baseweb="radio"][aria-checked="true"] > div:first-child::after {{
+            background-color: {bg_secondary} !important;
+        }}
+        
+        /* ========== MULTISELECT - PINK ========== */
+        .stMultiSelect [data-baseweb="tag"] {{
+            background-color: {accent_secondary} !important;
+            color: {bg_secondary} !important;
+        }}
+        .stMultiSelect [data-baseweb="tag"] svg {{
+            fill: {bg_secondary} !important;
+        }}
+        .stMultiSelect [data-baseweb="select"] > div {{
+            border-color: {text_secondary} !important;
+        }}
+        .stMultiSelect [data-baseweb="select"]:focus-within > div {{
+            border-color: {accent_secondary} !important;
+            box-shadow: 0 0 0 1px {accent_secondary} !important;
+        }}
+        
+        /* ========== TEXT INPUT - PINK FOCUS ========== */
+        .stTextInput > div > div > input:focus {{
+            border-color: {accent_secondary} !important;
+            box-shadow: 0 0 0 1px {accent_secondary} !important;
+        }}
+        
+        /* ========== NUMBER INPUT - PINK ========== */
+        .stNumberInput > div > div > input:focus {{
+            border-color: {accent_secondary} !important;
+            box-shadow: 0 0 0 1px {accent_secondary} !important;
+        }}
+        .stNumberInput button {{
+            color: {accent_secondary} !important;
+        }}
+        .stNumberInput button:hover {{
+            background-color: rgba(229, 173, 168, 0.1) !important;
+        }}
+        
+        /* ========== SELECTBOX - PINK FOCUS ========== */
+        .stSelectbox [data-baseweb="select"] > div {{
+            border-color: {text_secondary} !important;
+        }}
+        .stSelectbox [data-baseweb="select"]:focus-within > div {{
+            border-color: {accent_secondary} !important;
+            box-shadow: 0 0 0 1px {accent_secondary} !important;
+        }}
+        
+        /* ========== EXPANDER - PINK ARROW ========== */
+        .streamlit-expanderHeader {{
+            color: {text_secondary} !important;
+        }}
+        .streamlit-expanderHeader:hover {{
+            background-color: rgba(229, 173, 168, 0.05) !important;
+        }}
+        .streamlit-expanderHeader svg {{
+            fill: {accent_secondary} !important;
+        }}
+        
+        /* ========== METRIC - PINK DELTA ========== */
+        [data-testid="stMetricValue"] {{
+            color: {text_secondary} !important;
+        }}
+        [data-testid="stMetricDelta"] svg {{
+            fill: {accent_secondary} !important;
+        }}
+        
+        /* ========== INFO/SUCCESS/WARNING BOXES ========== */
+        .stAlert {{
+            background-color: rgba(229, 173, 168, 0.1) !important;
+            border-left-color: {accent_secondary} !important;
+        }}
+        
+        /* ========== SPINNER - PINK ========== */
+        .stSpinner > div {{
+            border-top-color: {accent_secondary} !important;
+        }}
+        
+        /* ========== PROGRESS BAR - PINK ========== */
+        .stProgress > div > div > div {{
+            background-color: {accent_secondary} !important;
+        }}
+        
+        /* ========== TABS - PINK ========== */
+        .stTabs [data-baseweb="tab-list"] button[aria-selected="true"] {{
+            background-color: rgba(229, 173, 168, 0.2) !important;
+            border-bottom-color: {accent_secondary} !important;
+            color: {accent_secondary} !important;
+        }}
+        .stTabs [data-baseweb="tab-list"] button:hover {{
+            background-color: rgba(229, 173, 168, 0.1) !important;
+        }}
+        
+        /* ========== CHECKBOX - PINK ========== */
+        .stCheckbox input[type="checkbox"]:checked + div {{
+            background-color: {accent_secondary} !important;
+            border-color: {accent_secondary} !important;
         }}
     </style>
     """
@@ -278,34 +463,49 @@ def create_genre_list(df):
     all_genres = {g for g in all_genres if g and g != 'Unknown'}
     return sorted(list(all_genres))
 
-def filter_by_genre(df, selected_genre):
-    """Filter dataframe by a single genre"""
-    if not selected_genre or selected_genre == 'All':
+def filter_by_genre(df, selected_genres):
+    """Filter dataframe by multiple genres (AND logic)"""
+    if not selected_genres or len(selected_genres) == 0:
         return df
     
-    mask = df['Genres'].apply(
-        lambda x: selected_genre in [
-            map_genre(g.strip())
-            for sep in ['|', ',']
-            for g in str(x).split(sep)
-        ]
-    )
+    def has_all_genres(genres_str):
+        """Check if movie has ALL selected genres"""
+        movie_genres = []
+        for sep in ['|', ',']:
+            if sep in str(genres_str):
+                movie_genres = [
+                    map_genre(g.strip()) for g in str(genres_str).split(sep)
+                ]
+                break
+        else:
+            movie_genres = [map_genre(str(genres_str).strip())]
+        
+        # Check if ALL selected genres are in movie genres
+        return all(genre in movie_genres for genre in selected_genres)
+    
+    mask = df['Genres'].apply(has_all_genres)
     return df[mask]
 
-def create_recommendation_system(df, selected_genre, top_n=10):
-    """Hash-based recommendation system"""
-    if not selected_genre or selected_genre == 'All':
+def create_recommendation_system(df, selected_genres, top_n=10):
+    """Hash-based recommendation system with AND logic for multiple genres"""
+    if not selected_genres or len(selected_genres) == 0:
         return df.nlargest(top_n, 'Rating_average')
     
-    genre_movies = df[
-        df['Genres'].apply(
-            lambda x: selected_genre in [
-                map_genre(g.strip())
-                for sep in ['|', ',']
-                for g in str(x).split(sep)
-            ]
-        )
-    ]
+    def has_all_genres(genres_str):
+        """Check if movie has ALL selected genres"""
+        movie_genres = []
+        for sep in ['|', ',']:
+            if sep in str(genres_str):
+                movie_genres = [
+                    map_genre(g.strip()) for g in str(genres_str).split(sep)
+                ]
+                break
+        else:
+            movie_genres = [map_genre(str(genres_str).strip())]
+        
+        return all(genre in movie_genres for genre in selected_genres)
+    
+    genre_movies = df[df['Genres'].apply(has_all_genres)]
     
     if len(genre_movies) > 0:
         return genre_movies.nlargest(top_n, 'Rating_average')
@@ -364,17 +564,16 @@ def main():
     st.markdown(get_theme_css(),
                 unsafe_allow_html=True)
     
-    # Header with tagline
-    st.markdown('<h1 class="main-header">MovieMate</h1>',
-                unsafe_allow_html=True)
-    st.markdown(
-        '<p class="tagline">Your Intelligent Companion for '
-        'Movie Discovery</p>',
-        unsafe_allow_html=True
-    )
+    # Logo in center
+    try:
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            st.image("./images/logo.png", use_container_width=True)
+    except:  # noqa: E722
+        pass
     
     # ==================== SIDEBAR FILTERS ====================
-    st.sidebar.title("Global Filters")
+    st.sidebar.title("Narrow things down")
     
     # Year Filter
     min_year = int(df['Year'].min())
@@ -387,12 +586,13 @@ def main():
         step=1
     )
     
-    # Genre Filter
+    # Genre Filter - CHANGED TO MULTISELECT
     all_genres = create_genre_list(df)
-    selected_genre = st.sidebar.selectbox(
-        "Select Genre",
-        options=['All'] + all_genres,
-        index=0
+    selected_genres = st.sidebar.multiselect(
+        "Select Genre(s)",
+        options=all_genres,
+        default=[],
+        help="Select multiple genres. Movies must contain ALL selected genres."
     )
     
     # Language Filter
@@ -421,12 +621,12 @@ def main():
             filtered_df['Original_Language'] == lang_code
         ]
     
-    filtered_df = filter_by_genre(filtered_df, selected_genre)
+    filtered_df = filter_by_genre(filtered_df, selected_genres)
     
     # ==================== PAGE NAVIGATION ====================
     page = st.sidebar.radio(
         "Navigate to:",
-        ["Overview Analytics", "Granular Search & Discovery"]
+        ["Overview Analytics", "Search & Discovery"]
     )
     
     st.sidebar.markdown("---")
@@ -434,7 +634,7 @@ def main():
     
     # ==================== PAGE 1: OVERVIEW ANALYTICS ====================
     if page == "Overview Analytics":
-        st.header("Market Intelligence Dashboard")
+        st.header("At a glance.")
         
         # KPI Cards
         col1, col2, col3, col4 = st.columns(4)
@@ -480,7 +680,7 @@ def main():
         col1, col2 = st.columns(2)
         
         with col1:
-            st.subheader("Top 10 Genres Distribution")
+            st.subheader("A look at the leading genres")
             
             genre_counts = {}
             for genres_str in filtered_df['Genres'].dropna():
@@ -515,13 +715,12 @@ def main():
                 x='Count',
                 y='Genre',
                 orientation='h',
-                title='Algorithm: Quick Sort O(n log n)',
                 color='Count',
                 color_continuous_scale=[
                     [0, '#e5ada8'],
-                    [0.5, '#e5d7c4'],      # 0% = white
-                    [0.75, '#889063'],    # 50% = red
-                    [1, '#354024']       # 100% = dark red
+                    [0.5, '#e5d7c4'],
+                    [0.75, '#889063'],
+                    [1, '#354024']
                 ]
             )
             fig_bar.update_layout(
@@ -531,7 +730,7 @@ def main():
             st.plotly_chart(fig_bar, use_container_width=True)
         
         with col2:
-            st.subheader("Language Distribution")
+            st.subheader("The spread of languages")
             
             lang_counts = filtered_df['Original_Language'].value_counts().head(10)
             mapped_lang_counts = {
@@ -539,8 +738,7 @@ def main():
                 lang_counts.items()
             }
             
-            # ===== UBAH BAGIAN INI =====
-            # Ambil top 4
+            # Top 4 + Others
             sorted_langs = sorted(
                 mapped_lang_counts.items(),
                 key=lambda x: x[1],
@@ -550,17 +748,14 @@ def main():
             top_4 = sorted_langs[:4]
             others_count = sum([count for _, count in sorted_langs[4:]])
             
-            # Tambah 'Others' jika ada sisa
             if others_count > 0:
                 top_4.append(('Others', others_count))
             
-            # Convert ke dict untuk pie chart
             pie_data = dict(top_4)
             
             fig_pie = px.pie(
                 values=list(pie_data.values()),
                 names=list(pie_data.keys()),
-                title='Top 4 Languages (+ Others)',
                 color_discrete_sequence=[
                     '#354024',
                     '#a1a37e',
@@ -572,7 +767,7 @@ def main():
             st.plotly_chart(fig_pie, use_container_width=True)
         
         # Line Chart
-        st.subheader("Movie Release Trends per Year")
+        st.subheader("Tracing the years of movie releases")
         
         trend_df = filtered_df[filtered_df['Year'] <= 2020]
         
@@ -589,7 +784,7 @@ def main():
             y=yearly_data['Count'],
             mode='lines+markers',
             name='Number of Movies',
-            line=dict(color='#354024', width=3),  
+            line=dict(color='#354024', width=3),
             marker=dict(size=6),
             fill='tozeroy',
             fillcolor='rgba(207, 187, 153, 0.2)'
@@ -600,7 +795,7 @@ def main():
             y=yearly_data['Avg_Rating'],
             mode='lines+markers',
             name='Average Rating',
-            line=dict(color='#e5aea9', width=3),  
+            line=dict(color='#e5aea9', width=3),
             marker=dict(size=6),
             yaxis='y2'
         ))
@@ -638,14 +833,14 @@ def main():
         st.plotly_chart(fig_line, use_container_width=True)
     
     # ==================== PAGE 2: GRANULAR SEARCH ====================
-    elif page == "Granular Search & Discovery":
-        st.header("Granular Search & Recommendation Hub")
+    elif page == "Search & Discovery":
+        st.header("The Art of Discovery")
         
         col1, col2 = st.columns([5, 1])
         
         with col1:
             search_query = st.text_input(
-                "Search Movies (Linear Search Algorithm)",
+                "Search Movies",
                 placeholder="Enter movie title...",
                 label_visibility="visible"
             )
@@ -746,11 +941,6 @@ def main():
                         reverse=True
                     )
                 
-                st.success(
-                    f"**Sorting Algorithm**: Merge Sort | "
-                    f"**Complexity**: O(n log n)"
-                )
-                
                 for i, movie in enumerate(
                     search_results[:results_limit]
                 ):
@@ -811,23 +1001,19 @@ def main():
         st.markdown("---")
         st.markdown("### Personalized Recommendations")
         
-        if selected_genre != 'All':
-            st.info(
-                "**Algorithm**: Hash Table-based Recommendation | "
-                "**Complexity**: O(1) lookup"
-            )
+        if selected_genres and len(selected_genres) > 0:
+            genres_text = ", ".join(selected_genres)
             
             recommendations = create_recommendation_system(
                 search_df,
-                selected_genre,
+                selected_genres,
                 top_n=10
             )
             
             if len(recommendations) > 0:
                 st.success(
                     f"Found {len(recommendations)} recommendations "
-                    f"based on your selected genre: "
-                    f"**{selected_genre}**"
+                    f"containing ALL genres: **{genres_text}**"
                 )
                 
                 cols = st.columns(2)
@@ -854,22 +1040,15 @@ def main():
                         """, unsafe_allow_html=True)
             else:
                 st.warning(
-                    "No recommendations found for selected criteria."
+                    f"No movies found containing ALL genres: {genres_text}"
                 )
         else:
             st.info(
-                "Select a specific genre from the sidebar to get "
+                "Select one or more genres from the sidebar to get "
                 "personalized recommendations!"
             )
 
     st.markdown("---")
-    st.markdown("""
-    <div style='text-align: center; color: gray;'>
-        <p>MovieMate | Data Structures & Algorithms Project</p>
-        <p>Algorithms: Quick Sort, Merge Sort, Binary Search, 
-        Linear Search, Hash Tables</p>
-    </div>
-    """, unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()

@@ -14,8 +14,7 @@ st.set_page_config(
 )
 
 # ==================== THEME CONFIGURATION ====================
-
-# Genre mapping to single words
+# genre mapping to single words
 GENRE_MAPPING = {
     'Science Fiction': 'SciFi',
     'TV Movie': 'TVMovie',
@@ -38,7 +37,6 @@ GENRE_MAPPING = {
     'Western': 'Western'
 }
 
-# Language mapping
 LANGUAGE_MAPPING = {
     'en': 'English',
     'fr': 'French',
@@ -59,13 +57,13 @@ LANGUAGE_MAPPING = {
 
 def get_theme_css():
     """Generate CSS based on theme mode"""
-    bg_primary = "#4c3d19"           # Background utama
-    bg_secondary = "#354024"         # Background sekunder
-    accent_primary = "#889063"       # Accent warna 1
-    accent_secondary = "#e5ada8"     # Accent warna 2 (PINK)
-    text_primary = "#efe8d8"         # Text utama
-    text_secondary = "#d8d7b2"       # Text sekunder
-    card_bg = "#e5d7c4"              # Background card
+    bg_primary = "#4c3d19"           # background utama
+    bg_secondary = "#354024"         # background sekunder
+    accent_primary = "#889063"       # accent warna 1
+    accent_secondary = "#e5ada8"     # accent warna 2 (PINK)
+    text_primary = "#efe8d8"         # text utama
+    text_secondary = "#d8d7b2"       # text sekunder
+    card_bg = "#e5d7c4"              # background card
     
     return f"""
     <style>
@@ -143,7 +141,6 @@ def get_theme_css():
             align-items: flex-end;
         }}
         
-        /* ========== PRIMARY BUTTON - PINK ========== */
         .stButton > button[kind="primary"] {{
             background-color: {accent_secondary} !important;
             border-color: {accent_secondary} !important;
@@ -158,8 +155,6 @@ def get_theme_css():
             border-color: #cc8882 !important;
         }}
         
-        /* ========== SLIDER - PINK (SEMUA ELEMEN) ========== */
-        /* Thumb/handle slider */
         .stSlider [role="slider"] {{
             background-color: {accent_secondary} !important;
             border-color: {accent_secondary} !important;
@@ -174,7 +169,6 @@ def get_theme_css():
             background-color: #d99a95 !important;
         }}
         
-        /* SLIDER TEXT/ANGKA - PINK - SUPER AGGRESSIVE */
         .stSlider * {{
             color: {accent_secondary} !important;
         }}
@@ -201,7 +195,6 @@ def get_theme_css():
         [data-testid="stThumbValue"] {{
             color: {accent_secondary} !important;
         }}
-        /* Min/max labels di samping slider */
         .stSlider [data-testid="stTickBar"] + div {{
             color: {accent_secondary} !important;
         }}
@@ -209,7 +202,6 @@ def get_theme_css():
             color: {accent_secondary} !important;
         }}
         
-        /* ========== RADIO BUTTON - PINK ========== */
         .stRadio [role="radiogroup"] label:hover {{
             background-color: rgba(229, 173, 168, 0.1) !important;
         }}
@@ -225,7 +217,6 @@ def get_theme_css():
             background-color: {bg_secondary} !important;
         }}
         
-        /* ========== MULTISELECT - PINK ========== */
         .stMultiSelect [data-baseweb="tag"] {{
             background-color: {accent_secondary} !important;
             color: {bg_secondary} !important;
@@ -241,13 +232,11 @@ def get_theme_css():
             box-shadow: 0 0 0 1px {accent_secondary} !important;
         }}
         
-        /* ========== TEXT INPUT - PINK FOCUS ========== */
         .stTextInput > div > div > input:focus {{
             border-color: {accent_secondary} !important;
             box-shadow: 0 0 0 1px {accent_secondary} !important;
         }}
         
-        /* ========== NUMBER INPUT - PINK ========== */
         .stNumberInput > div > div > input:focus {{
             border-color: {accent_secondary} !important;
             box-shadow: 0 0 0 1px {accent_secondary} !important;
@@ -259,7 +248,6 @@ def get_theme_css():
             background-color: rgba(229, 173, 168, 0.1) !important;
         }}
         
-        /* ========== SELECTBOX - PINK FOCUS ========== */
         .stSelectbox [data-baseweb="select"] > div {{
             border-color: {text_secondary} !important;
         }}
@@ -268,7 +256,6 @@ def get_theme_css():
             box-shadow: 0 0 0 1px {accent_secondary} !important;
         }}
         
-        /* ========== EXPANDER - PINK ARROW ========== */
         .streamlit-expanderHeader {{
             color: {text_secondary} !important;
         }}
@@ -279,7 +266,6 @@ def get_theme_css():
             fill: {accent_secondary} !important;
         }}
         
-        /* ========== METRIC - PINK DELTA ========== */
         [data-testid="stMetricValue"] {{
             color: {text_secondary} !important;
         }}
@@ -287,23 +273,19 @@ def get_theme_css():
             fill: {accent_secondary} !important;
         }}
         
-        /* ========== INFO/SUCCESS/WARNING BOXES ========== */
         .stAlert {{
             background-color: rgba(229, 173, 168, 0.1) !important;
             border-left-color: {accent_secondary} !important;
         }}
         
-        /* ========== SPINNER - PINK ========== */
         .stSpinner > div {{
             border-top-color: {accent_secondary} !important;
         }}
         
-        /* ========== PROGRESS BAR - PINK ========== */
         .stProgress > div > div > div {{
             background-color: {accent_secondary} !important;
         }}
         
-        /* ========== TABS - PINK ========== */
         .stTabs [data-baseweb="tab-list"] button[aria-selected="true"] {{
             background-color: rgba(229, 173, 168, 0.2) !important;
             border-bottom-color: {accent_secondary} !important;
@@ -313,7 +295,6 @@ def get_theme_css():
             background-color: rgba(229, 173, 168, 0.1) !important;
         }}
         
-        /* ========== CHECKBOX - PINK ========== */
         .stCheckbox input[type="checkbox"]:checked + div {{
             background-color: {accent_secondary} !important;
             border-color: {accent_secondary} !important;
@@ -322,7 +303,6 @@ def get_theme_css():
     """
 
 # ==================== ALGORITHM IMPLEMENTATIONS ====================
-
 def quick_sort(arr, key=lambda x: x, reverse=False):
     """Quick Sort Algorithm - O(n log n) average case"""
     if len(arr) <= 1:
@@ -410,14 +390,13 @@ def merge(left, right, key, reverse):
     result.extend(right[j:])
     return result
 
-# ==================== DATA LOADING ====================
+# ==================== DATA PREPROCESSING ====================
 
 @st.cache_data
 def load_data():
     """Load and preprocess movie data"""
     df = pd.read_csv('data/tmdb_movies.csv')
     
-    # Data preprocessing
     df['Release_Date'] = pd.to_datetime(df['Release_Date'],
                                         errors='coerce')
     df['Year'] = df['Release_Date'].dt.year.astype('Int64')
@@ -428,7 +407,6 @@ def load_data():
     df['Popularity'] = pd.to_numeric(df['Popularity'],
                                       errors='coerce')
     
-    # Clean data
     df = df.dropna(subset=['Year', 'Title'])
     df = df[df['Year'] >= 1900]
     df = df[df['Year'] <= 2025]
@@ -480,7 +458,6 @@ def filter_by_genre(df, selected_genres):
         else:
             movie_genres = [map_genre(str(genres_str).strip())]
         
-        # Check if ALL selected genres are in movie genres
         return all(genre in movie_genres for genre in selected_genres)
     
     mask = df['Genres'].apply(has_all_genres)
@@ -550,9 +527,7 @@ def get_similar_movies(df, movie, top_n=5):
     return sorted_similar[:top_n]
 
 # ==================== MAIN APPLICATION ====================
-
 def main():
-    # Load data
     try:
         df = load_data()
     except Exception as e:
@@ -560,11 +535,9 @@ def main():
         st.info("Please ensure 'tmdb_movies.csv' is in the data directory")
         return
     
-    # Apply theme CSS
     st.markdown(get_theme_css(),
                 unsafe_allow_html=True)
     
-    # Logo in center
     try:
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
@@ -575,7 +548,6 @@ def main():
     # ==================== SIDEBAR FILTERS ====================
     st.sidebar.title("Narrow things down")
     
-    # Year Filter
     min_year = int(df['Year'].min())
     max_year = int(df['Year'].max())
     year_range = st.sidebar.slider(
@@ -586,7 +558,6 @@ def main():
         step=1
     )
     
-    # Genre Filter - CHANGED TO MULTISELECT
     all_genres = create_genre_list(df)
     selected_genres = st.sidebar.multiselect(
         "Select Genre(s)",
@@ -595,7 +566,6 @@ def main():
         help="Select multiple genres. Movies must contain ALL selected genres."
     )
     
-    # Language Filter
     unique_languages = df['Original_Language'].dropna().unique()
     mapped_languages = sorted(
         [(lang, map_language(lang)) for lang in unique_languages],
@@ -609,7 +579,6 @@ def main():
         options=language_options
     )
     
-    # Apply filters
     filtered_df = df[
         (df['Year'] >= year_range[0]) &
         (df['Year'] <= year_range[1])
@@ -738,7 +707,6 @@ def main():
                 lang_counts.items()
             }
             
-            # Top 4 + Others
             sorted_langs = sorted(
                 mapped_lang_counts.items(),
                 key=lambda x: x[1],
@@ -851,7 +819,6 @@ def main():
                 "Search", type="primary", use_container_width=True
             )
         
-        # Advanced Filters
         st.markdown("### Advanced Filters")
         
         col1, col2, col3 = st.columns(3)
